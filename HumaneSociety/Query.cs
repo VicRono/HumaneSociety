@@ -80,6 +80,16 @@ namespace HumaneSociety
             return pendingAdoptions;
         }
 
+        internal static void RunEmployeeQueries(Employee employee, string v)
+        {
+            throw new NotImplementedException();
+        }
+
+        internal static object GetAnimalByID(int iD)
+        {
+            throw new NotImplementedException();
+        }
+
         internal static void UpdateClient(Client clientWithUpdates)
         {
             HumaneSocietyDataContext db = new HumaneSocietyDataContext();
@@ -122,6 +132,40 @@ namespace HumaneSociety
             db.SubmitChanges();
         }
 
+        internal static void Adopt(object animal, Client client)
+        {
+            throw new NotImplementedException();
+        }
+
+        internal static Room GetRoom(int animalId)
+        {
+            throw new NotImplementedException();
+        }
+
+        internal static object SearchForAnimalByMultipleTraits()
+        {
+            throw new NotImplementedException();
+        }
+
+        public static void UpdateAdoption(bool v, Adoption adoption)
+        {
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            var adoptionFromDb = db.Adoptions.Where(a => a.AdoptionId == adoption.AdoptionId).Single();
+            if (v)
+            {
+                adoptionFromDb.ApprovalStatus = "Status is approved";
+                adoptionFromDb.Animal.AdoptionStatus = "Adopted";
+                adoptionFromDb.PaymentCollected = true;
+            }
+            else
+            {
+                adoptionFromDb.ApprovalStatus = "Status is denied";
+                adoptionFromDb.Animal.AdoptionStatus = "Available";
+            }
+
+            db.SubmitChanges();
+        }
+
         internal static Employee RetrieveEmployeeUser(string email, int employeeNumber)
         {
             HumaneSocietyDataContext db = new HumaneSocietyDataContext();
@@ -136,6 +180,16 @@ namespace HumaneSociety
             {
                 return employeeFromDb;
             }            
+        }
+
+        internal static void UpdateShot(string v, Animal animal)
+        {
+            throw new NotImplementedException();
+        }
+
+        internal static object GetShots(Animal animal)
+        {
+            throw new NotImplementedException();
         }
 
         internal static Employee EmployeeLogin(string userName, string password)
@@ -156,6 +210,11 @@ namespace HumaneSociety
             return employeeWithUserName == null;
         }
 
+        internal static void EnterAnimalUpdate(Animal animal, Dictionary<int, string> updates)
+        {
+            throw new NotImplementedException();
+        }
+
         internal static void AddUsernameAndPassword(Employee employee)
         {
             HumaneSocietyDataContext db = new HumaneSocietyDataContext();
@@ -166,6 +225,26 @@ namespace HumaneSociety
             employeeFromDb.Password = employee.Password;
 
             db.SubmitChanges();
+        }
+
+        internal static void RemoveAnimal(object animal)
+        {
+            throw new NotImplementedException();
+        }
+
+        internal static int? GetCategoryId()
+        {
+            throw new NotImplementedException();
+        }
+
+        internal static int? GetDietPlanId()
+        {
+            throw new NotImplementedException();
+        }
+
+        internal static void AddAnimal(Animal animal)
+        {
+            throw new NotImplementedException();
         }
     }
 }
