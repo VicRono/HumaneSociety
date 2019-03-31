@@ -73,6 +73,13 @@ namespace HumaneSociety
             db.SubmitChanges();
         }
 
+        public static List<Adoption> GetPendingAdoptions()
+        {
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            var pendingAdoptions = db.Adoptions.Where(m => m.ApprovalStatus.ToLower() == "Pending").ToList();
+            return pendingAdoptions;
+        }
+
         internal static void UpdateClient(Client clientWithUpdates)
         {
             HumaneSocietyDataContext db = new HumaneSocietyDataContext();
