@@ -248,5 +248,34 @@ namespace HumaneSociety
             db.Animals.InsertOnSubmit(animal);
             db.SubmitChanges();
         }
+
+        public static List<Category> GetAllCategories()
+        {
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            var allCategories = db.Categories.ToList();
+            return allCategories;
+        }
+
+        public static void AddCategory(Category category)
+        {
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            db.Categories.InsertOnSubmit(category);
+            db.SubmitChanges();
+        }
+
+        public static bool CheckCategoryName(string name)
+        {
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            try
+            {
+                Category categoryFromDb = db.Categories.Where(c => c.Name == name).Single();
+                return true;
+            }
+            catch (InvalidOperationException)
+            {
+                return false;
+            }
+        }
+
     }
 }
