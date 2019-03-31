@@ -137,9 +137,11 @@ namespace HumaneSociety
             throw new NotImplementedException();
         }
 
-        internal static Room GetRoom(int animalId)
+        public static Room GetRoom(int id)
         {
-            throw new NotImplementedException();
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            var room = db.Rooms.Where(r => r.AnimalId == id).Single();
+            return room;
         }
 
         internal static object SearchForAnimalByMultipleTraits()
