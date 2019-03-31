@@ -149,9 +149,48 @@ namespace HumaneSociety
                     CheckShots(animal);
                     Console.Clear();
                     break;
+                case 4:
+                    CheckCurrentCategories();
+                    Console.Clear();
+                    break;
+                case 5:
+                    CreateCategory();
+                    Console.Clear();
+                    break;
                 default:
                     UserInterface.DisplayUserOptions("Input not accepted please select a menu choice");
                     break;
+            }
+        }
+
+        private void CheckCurrentCategories()
+        {
+            Console.Clear();
+            List<Category> currentCategories = Query.GetAllCategories();
+            foreach (Category category in currentCategories)
+            {
+                UserInterface.DisplayUserOptions($"Category ID - {category.CategoryId} is for Animal Type - {category.Name}");
+            }
+            Console.ReadLine();
+        }
+
+        private void CreateCategory()
+        {
+
+            string newType = UserInterface.GetStringData("type", "the new Animal");
+            if (!Query.CheckCategoryName(newType.Trim()))
+            {
+                Category category = new Category();
+                category.Name = newType.Trim();
+                Query.AddCategory(category);
+            }
+            else
+            {
+                Console.BackgroundColor = ConsoleColor.DarkRed;
+                UserInterface.DisplayUserOptions("The Animal Category already Exists. Please Check all Categories");
+                Console.ReadLine();
+                Console.ResetColor();
+                Console.Clear();
             }
         }
 
