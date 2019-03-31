@@ -144,6 +144,13 @@ namespace HumaneSociety
             return room;
         }
 
+        public static List<Room> GetAnimalHousing()
+        {
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            var bookedRooms = db.Rooms.Where(c => c.AnimalId != null).ToList();
+            return bookedRooms;
+        }
+
         internal static object SearchForAnimalByMultipleTraits()
         {
             throw new NotImplementedException();

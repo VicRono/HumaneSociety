@@ -157,6 +157,10 @@ namespace HumaneSociety
                     CreateCategory();
                     Console.Clear();
                     break;
+                case 6:
+                    CheckHousing();
+                    Console.Clear();
+                    break;
                 default:
                     UserInterface.DisplayUserOptions("Input not accepted please select a menu choice");
                     break;
@@ -193,6 +197,26 @@ namespace HumaneSociety
                 Console.Clear();
             }
         }
+
+        private void CheckHousing()
+        {
+            Console.Clear();
+            List<Room> roomsInfo;
+            List<Room> roomsAvailable;
+            roomsInfo = Query.GetAnimalHousing();
+            roomsAvailable = Query.GetAvailableRooms();
+            foreach (Room room in roomsInfo)
+            {
+                UserInterface.DisplayUserOptions($"Room No - {room.RoomNumber} - {room.Animal.Name} ");
+            }
+            UserInterface.DisplayUserOptions("Available Rooms");
+            foreach (Room room in roomsAvailable)
+            {
+                UserInterface.DisplayUserOptions($"Room No - {room.RoomNumber} - Available");
+            }
+            Console.ReadLine();
+        }
+
 
         private void CheckShots(Animal animal)
         {
