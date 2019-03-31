@@ -151,6 +151,8 @@ namespace HumaneSociety
             return bookedRooms;
         }
 
+
+
         internal static object SearchForAnimalByMultipleTraits()
         {
             throw new NotImplementedException();
@@ -196,6 +198,13 @@ namespace HumaneSociety
             throw new NotImplementedException();
         }
 
+        public static List<Room> GetAvailableRooms()
+        {
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            var availableRooms = db.Rooms.Where(c => c.AnimalId == null).ToList();
+            return availableRooms;
+        }
+
         internal static object GetShots(Animal animal)
         {
             throw new NotImplementedException();
@@ -233,6 +242,24 @@ namespace HumaneSociety
             employeeFromDb.UserName = employee.UserName;
             employeeFromDb.Password = employee.Password;
 
+            db.SubmitChanges();
+        }
+
+        public static void UpdateRoom(int number, int id)
+        {
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            Room roomFromDb = db.Rooms.Where(r => r.RoomNumber == number).Single();
+            if (roomFromDb.AnimalId != null)
+            {
+                if (UserInterface.GetBitData("Already Occupied! Do you still want to update?"))
+                {
+                    roomFromDb.AnimalId = id;
+                }
+            }
+            else
+            {
+                roomFromDb.AnimalId = id;
+            }
             db.SubmitChanges();
         }
 
