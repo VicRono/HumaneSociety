@@ -239,9 +239,27 @@ namespace HumaneSociety
             }            
         }
 
-        internal static void UpdateShot(string v, Animal animal)
+        public static void UpdateShot(string word, Animal animal)
         {
-            throw new NotImplementedException();
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+
+            var shotUpdateAnimal = db.AnimalShots.Where(s => s.AnimalId == animal.AnimalId).SingleOrDefault();
+            var shotUpdateShot = db.AnimalShots.Where(f => f.Shot.Name == word && f.AnimalId == animal.AnimalId).ToArray();
+            var shotz = shotUpdateShot;
+
+            if (shotUpdateShot.Length > 0)
+            {
+                var thisShot = shotz[0];
+                thisShot.DateReceived = DateTime.Now;
+                db.SubmitChanges();
+            }
+
+            if (shotUpdateAnimal == null)
+            {
+                AnimalShot animalShot = new AnimalShot { AnimalId = animal.AnimalId, ShotId = 6, DateReceived = DateTime.Now };
+                db.AnimalShots.InsertOnSubmit(animalShot);
+                db.SubmitChanges();
+            }
         }
 
         public static List<Room> GetAvailableRooms()
@@ -251,9 +269,11 @@ namespace HumaneSociety
             return availableRooms;
         }
 
-        internal static object GetShots(Animal animal)
+        public static List<AnimalShot> GetShots(Animal animal)
         {
-            throw new NotImplementedException();
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            var AnimalShotinfo = db.AnimalShots.Where(s => s.AnimalId == animal.AnimalId).ToList();
+            return AnimalShotinfo;
         }
 
         internal static Employee EmployeeLogin(string userName, string password)
