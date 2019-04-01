@@ -376,7 +376,38 @@ namespace HumaneSociety
             db.SubmitChanges();
         }
 
-        internal static void RemoveAnimal(object animal)
+        public static void RemoveAnimal(Animal animal)
+        {
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            var animalsToBeRemoved = db.Animals.Where(d => d.Name == animal.Name).ToList();
+            ResetRoomFields(animal);
+
+            if (db.AnimalShots.Where(s => s.AnimalId == animal.AnimalId) != null)
+            {
+                RemoveAnimalShotFields(animal);
+            }
+
+            if (db.Adoptions.Where(a => a.AnimalId == animal.AnimalId) != null)
+
+            {
+                RemoveAdoptionFields(animal);
+            }
+
+            db.Animals.DeleteAllOnSubmit(animalsToBeRemoved);
+            db.SubmitChanges();
+        }
+
+        private static void RemoveAdoptionFields(Animal animal)
+        {
+            throw new NotImplementedException();
+        }
+
+        private static void RemoveAnimalShotFields(Animal animal)
+        {
+            throw new NotImplementedException();
+        }
+
+        private static void ResetRoomFields(Animal animal)
         {
             throw new NotImplementedException();
         }
