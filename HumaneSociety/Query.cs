@@ -85,9 +85,11 @@ namespace HumaneSociety
             throw new NotImplementedException();
         }
 
-        internal static object GetAnimalByID(int iD)
+        public static Animal GetAnimalByID(int id)
         {
-            throw new NotImplementedException();
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            Animal animal = db.Animals.Where(c => c.AnimalId == id).Single();
+            return animal;
         }
 
         internal static void UpdateClient(Client clientWithUpdates)

@@ -161,6 +161,10 @@ namespace HumaneSociety
                     CheckHousing();
                     Console.Clear();
                     break;
+                case 7:
+                    ManageHousing();
+                    Console.Clear();
+                    break;
                 default:
                     UserInterface.DisplayUserOptions("Input not accepted please select a menu choice");
                     break;
