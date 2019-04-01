@@ -382,9 +382,11 @@ namespace HumaneSociety
             return allCategories;
         }
 
-        internal static List<DietPlan> GetAllDietPlans()
+        public static List<DietPlan> GetAllDietPlans()
         {
-            throw new NotImplementedException();
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            var allDietPlans = db.DietPlans.ToList();
+            return allDietPlans;
         }
 
         public static void AddCategory(Category category)
