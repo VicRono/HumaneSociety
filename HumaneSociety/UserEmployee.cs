@@ -51,6 +51,22 @@ namespace HumaneSociety
                     CheckAdoptions();
                     RunUserMenus();
                     break;
+                case "5":
+                    CheckCurrentCategories();
+                    RunUserMenus();
+                    break;
+                case "6":
+                    CreateCategory();
+                    RunUserMenus();
+                    break;
+                case "7":
+                    CheckHousing();
+                    RunUserMenus();
+                    break;
+                case "8":
+                    ManageHousing();
+                    RunUserMenus();
+                    break;
                 default:
                     UserInterface.DisplayUserOptions("Input not accepted please try again");
                     RunUserMenus();
@@ -147,22 +163,6 @@ namespace HumaneSociety
                     break;
                 case 3:
                     CheckShots(animal);
-                    Console.Clear();
-                    break;
-                case 4:
-                    CheckCurrentCategories();
-                    Console.Clear();
-                    break;
-                case 5:
-                    CreateCategory();
-                    Console.Clear();
-                    break;
-                case 6:
-                    CheckHousing();
-                    Console.Clear();
-                    break;
-                case 7:
-                    ManageHousing();
                     Console.Clear();
                     break;
                 default:

@@ -134,9 +134,53 @@ namespace HumaneSociety
             db.SubmitChanges();
         }
 
-        internal static void Adopt(object animal, Client client)
+        public static void Adopt(Animal animal, Client client)
         {
-            throw new NotImplementedException();
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            var adoptionFromDb = db.Adoptions.Where(a => a.AnimalId == animal.AnimalId).SingleOrDefault();
+            if (adoptionFromDb == null)
+            {
+                CreateAdoption(animal, client);
+            }
+            else if (adoptionFromDb.ClientId == client.ClientId)
+            {
+                UserInterface.DisplayUserOptions("You've request for adoption is being processed. You will be notified once its approved.");
+                UserInterface.GetUserInput();
+            }
+            else if (adoptionFromDb.ApprovalStatus == "denied")
+            {
+                adoptionFromDb.ClientId = client.ClientId;
+                UpdateAdoption(true, adoptionFromDb);
+                UserInterface.DisplayUserOptions("Adoption request sent we will hold $75 adoption fee until processed");
+                UserInterface.GetUserInput();
+                return;
+            }
+            else
+            {
+                UserInterface.DisplayUserOptions("Already requested by someone else. Sorry !");
+                UserInterface.GetUserInput();
+            }
+            db.SubmitChanges();
+        }
+
+        public static void CreateAdoption(Animal animal, Client client)
+        {
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            var animalFromDb = db.Animals.Where(c => c.AnimalId == animal.AnimalId).Single();
+            Adoption adoption = new Adoption();
+            adoption.AdoptionFee = 50;
+            adoption.ClientId = client.ClientId;
+            adoption.AnimalId = animal.AnimalId;
+            adoption.ApprovalStatus = "pending";
+
+            animalFromDb.AdoptionStatus = "requested";
+
+            adoption.PaymentCollected = false;
+            UserInterface.DisplayUserOptions("Adoption request sent we will hold $75 adoption fee until processed");
+            UserInterface.GetUserInput();
+            db.Adoptions.InsertOnSubmit(adoption);
+            db.SubmitChanges();
+
         }
 
         public static Room GetRoom(int id)
