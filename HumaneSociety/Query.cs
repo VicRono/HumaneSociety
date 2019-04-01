@@ -100,6 +100,10 @@ namespace HumaneSociety
                     adminDelgate = new AdminDelgate(ReadEmployee);
                     adminDelgate(employee);
                     break;
+                case "delete":
+                    adminDelgate = new AdminDelgate(DeleteEmployee);
+                    adminDelgate(employee);
+                    break;
             }
         }
 
@@ -127,6 +131,14 @@ namespace HumaneSociety
             HumaneSocietyDataContext db = new HumaneSocietyDataContext();
             var employeeInDb = db.Employees.Where(u => u.EmployeeNumber == employee.EmployeeNumber).Single();
             UserInterface.DisplayEmployeeInfo(employeeInDb);
+        }
+
+        public static void DeleteEmployee(Employee employee)
+        {
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            var deleteEmployeeInDb = db.Employees.Where(u => u.EmployeeNumber == employee.EmployeeNumber).Single();
+            db.Employees.DeleteOnSubmit(deleteEmployeeInDb);
+            db.SubmitChanges();
         }
 
         public static Animal GetAnimalByID(int id)
