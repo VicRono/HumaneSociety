@@ -96,7 +96,10 @@ namespace HumaneSociety
                     adminDelgate = new AdminDelgate(UpdateEmployee);
                     adminDelgate(employee);
                     break;
-                
+                case "read":
+                    adminDelgate = new AdminDelgate(ReadEmployee);
+                    adminDelgate(employee);
+                    break;
             }
         }
 
@@ -117,6 +120,13 @@ namespace HumaneSociety
             employeeInDb.Password = employee.Password;
             employeeInDb.Email = employee.Email;
             db.SubmitChanges();
+        }
+
+        public static void ReadEmployee(Employee employee)
+        {
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            var employeeInDb = db.Employees.Where(u => u.EmployeeNumber == employee.EmployeeNumber).Single();
+            UserInterface.DisplayEmployeeInfo(employeeInDb);
         }
 
         public static Animal GetAnimalByID(int id)

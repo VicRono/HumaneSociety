@@ -84,6 +84,13 @@ namespace HumaneSociety
             }
         }
 
+        internal static void DisplayEmployeeInfo(Employee employee)
+        {
+            List<string> info = new List<string>() { "FIRST NAME - " + employee.FirstName, "LAST NAME - " + employee.LastName, "USER NAME - " + employee.UserName, "EMPLOYEE # - " + employee.EmployeeNumber.ToString(), "EMPLOYEE EMAIL - " + employee.Email };
+            DisplayUserOptions(info);
+            Console.ReadLine();
+        }
+
         internal static void DisplayAnimals(List<Animal> animals)
         {
             foreach(Animal animal in animals)
