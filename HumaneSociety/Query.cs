@@ -370,9 +370,11 @@ namespace HumaneSociety
             db.SubmitChanges();
         }
 
-        internal static void AddDietPlan(DietPlan dietPlan)
+        public static void AddDietPlan(DietPlan dietplan)
         {
-            throw new NotImplementedException();
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            db.DietPlans.InsertOnSubmit(dietplan);
+            db.SubmitChanges();
         }
 
         public static List<Category> GetAllCategories()
