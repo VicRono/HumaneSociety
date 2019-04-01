@@ -399,7 +399,13 @@ namespace HumaneSociety
 
         private static void RemoveAdoptionFields(Animal animal)
         {
-            throw new NotImplementedException();
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            var resetAdoptions = db.Adoptions.Where(a => a.AnimalId == animal.AnimalId).SingleOrDefault();
+            if (resetAdoptions != null)
+            {
+                db.Adoptions.DeleteOnSubmit(resetAdoptions);
+                db.SubmitChanges();
+            }
         }
 
         private static void RemoveAnimalShotFields(Animal animal)
