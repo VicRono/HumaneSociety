@@ -80,11 +80,31 @@ namespace HumaneSociety
             return pendingAdoptions;
         }
 
-        public delegate void EmployeeDelgate(Employee employee);
+        public delegate void AdminDelgate(Employee employee);
 
-        internal static void RunEmployeeQueries(Employee employee, string v)
+        public static void RunEmployeeQueries(Employee employee, string v)
         {
-            throw new NotImplementedException();
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            AdminDelgate adminDelgate;
+            switch (v)
+            {
+                case "update":
+                    adminDelgate = new AdminDelgate(UpdateEmployee);
+                    adminDelgate(employee);
+                    break;
+            }
+        }
+
+        public static void UpdateEmployee(Employee employee)
+        {
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            var employeeInDb = db.Employees.Where(u => u.EmployeeNumber == employee.EmployeeNumber).Single();
+            employeeInDb.FirstName = employee.FirstName;
+            employeeInDb.LastName = employee.LastName;
+            employeeInDb.UserName = employee.UserName;
+            employeeInDb.Password = employee.Password;
+            employeeInDb.Email = employee.Email;
+            db.SubmitChanges();
         }
 
         public static Animal GetAnimalByID(int id)
