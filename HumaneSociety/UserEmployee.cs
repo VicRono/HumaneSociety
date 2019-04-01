@@ -110,6 +110,11 @@ namespace HumaneSociety
             }
         }
 
+        public void ApproveTransaction(Adoption adoption)
+        {
+            adoption.PaymentCollected = true;
+        }
+
         private void CheckAnimalStatus()
         {
             Console.Clear();            

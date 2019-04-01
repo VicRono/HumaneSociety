@@ -176,7 +176,7 @@ namespace HumaneSociety
             animalFromDb.AdoptionStatus = "requested";
 
             adoption.PaymentCollected = false;
-            UserInterface.DisplayUserOptions("Adoption request sent we will hold $75 adoption fee until processed");
+            UserInterface.DisplayUserOptions("Adoption request sent we will hold $50 adoption fee until processed");
             UserInterface.GetUserInput();
             db.Adoptions.InsertOnSubmit(adoption);
             db.SubmitChanges();
