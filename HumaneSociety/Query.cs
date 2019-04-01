@@ -397,9 +397,55 @@ namespace HumaneSociety
             return employeeWithUserName == null;
         }
 
-        internal static void EnterAnimalUpdate(Animal animal, Dictionary<int, string> updates)
+        public static Animal EnterAnimalUpdate(Animal animal, Dictionary<int, string> updates)
         {
-            throw new NotImplementedException();
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            var animalInDb = db.Animals.Where(c => c.AnimalId == animal.AnimalId).Single();
+            for (int i = 0; i < updates.Count; i++)
+            {
+                int userInput = updates.Keys.ElementAt(i);
+                string updatedValue = updates.Values.ElementAt(i);
+                switch (userInput)
+                {
+                    case 1:
+                        var updatedCategory = db.Categories.Where(c => c.Name == updatedValue).Single();
+                        animalInDb.CategoryId = updatedCategory.CategoryId;
+                        break;
+                    case 2:
+                        animalInDb.Name = updatedValue;
+                        break;
+                    case 3:
+                        animalInDb.Age = Int32.Parse(updatedValue);
+                        break;
+                    case 4:
+                        animalInDb.Gender = updatedValue;
+                        break;
+                    case 5:
+                        animalInDb.Demeanor = updatedValue;
+                        break;
+                    case 6:
+                        animalInDb.KidFriendly = AnimalBehaviour(animalInDb.KidFriendly);
+                        break;
+                    case 7:
+                        animalInDb.PetFriendly = AnimalBehaviour(animalInDb.PetFriendly);
+                        break;
+                    case 8:
+                        animalInDb.Weight = Int32.Parse(updatedValue);
+                        break;
+                }
+            }
+
+            db.SubmitChanges();
+            return animalInDb;
+        }
+
+        private static bool? AnimalBehaviour(bool? userInput)
+        {
+            if (userInput ?? false)
+            {
+                return false;
+            }
+            return true;
         }
 
         internal static void AddUsernameAndPassword(Employee employee)
