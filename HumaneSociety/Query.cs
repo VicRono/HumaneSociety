@@ -339,9 +339,28 @@ namespace HumaneSociety
             throw new NotImplementedException();
         }
 
-        internal static int? GetDietPlanId()
+        public static int GetDietPlanId()
         {
-            throw new NotImplementedException();
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            List<string> plans = new List<string>() { "Choose a Diet Plan:", "1. Canine", "2. Feline", "3. Avian", "4. Reptile", "5. Mammal", "Enter the corresponding number." };
+            UserInterface.DisplayUserOptions(plans);
+            int dietNameId = Int32.Parse(UserInterface.GetUserInput());
+            var dietPlan = db.DietPlans.Where(m => m.DietPlanId == dietNameId).Single();
+            return dietPlan.DietPlanId;
+        }
+
+        public static bool CheckDietPlanName(string name)
+        {
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            try
+            {
+                DietPlan dietplanFromDB = db.DietPlans.Where(c => c.Name == name).Single();
+                return true;
+            }
+            catch (InvalidOperationException)
+            {
+                return false;
+            }
         }
 
         public static void AddAnimal(Animal animal)
@@ -351,11 +370,21 @@ namespace HumaneSociety
             db.SubmitChanges();
         }
 
+        internal static void AddDietPlan(DietPlan dietPlan)
+        {
+            throw new NotImplementedException();
+        }
+
         public static List<Category> GetAllCategories()
         {
             HumaneSocietyDataContext db = new HumaneSocietyDataContext();
             var allCategories = db.Categories.ToList();
             return allCategories;
+        }
+
+        internal static List<DietPlan> GetAllDietPlans()
+        {
+            throw new NotImplementedException();
         }
 
         public static void AddCategory(Category category)
@@ -379,5 +408,9 @@ namespace HumaneSociety
             }
         }
 
+        internal static DietPlan FindDietPlan(string v)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

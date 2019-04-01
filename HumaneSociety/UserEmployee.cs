@@ -67,6 +67,14 @@ namespace HumaneSociety
                     ManageHousing();
                     RunUserMenus();
                     break;
+                case "9":
+                    CreateNewDietPlan();
+                    RunUserMenus();
+                    break;
+                case "10":
+                    CheckCurrentDietPlans();
+                    RunUserMenus();
+                    break;
                 default:
                     UserInterface.DisplayUserOptions("Input not accepted please try again");
                     RunUserMenus();
@@ -110,10 +118,6 @@ namespace HumaneSociety
             }
         }
 
-        public void ApproveTransaction(Adoption adoption)
-        {
-            adoption.PaymentCollected = true;
-        }
 
         private void CheckAnimalStatus()
         {
@@ -348,6 +352,83 @@ namespace HumaneSociety
             animal.DietPlanId = Query.GetDietPlanId();
             Query.AddAnimal(animal);
         }
+
+        public static void CreateNewDietPlan()
+        {
+            string newPlanName = UserInterface.GetStringData("name", "the new Diet-Plan");
+            string foodType = UserInterface.GetStringData("type", "the food");
+            int foodAmount = UserInterface.GetIntegerData("in cups", "the amount of food");
+            if (!Query.CheckDietPlanName(newPlanName.Trim()))
+            {
+                DietPlan dietPlan = new DietPlan();
+                dietPlan.Name = newPlanName.Trim();
+                dietPlan.FoodType = foodType.Trim();
+                dietPlan.FoodAmountInCups = foodAmount;
+                Query.AddDietPlan(dietPlan);
+            }
+            else
+            {
+                Console.WriteLine("That Diet-Plan already Exists. Please check all diet-plans");
+                Console.ReadLine();
+                Console.Clear();
+            }
+        }
+
+        private void CheckCurrentDietPlans()
+        {
+            Console.Clear();
+            List<DietPlan> currentDietPlans = Query.GetAllDietPlans();
+            foreach (DietPlan plan in currentDietPlans)
+            {
+                UserInterface.DisplayUserOptions($"DietPlan - Name of Plan is {plan.Name}. Type of Food is {plan.FoodType}.  This plan administers {plan.FoodAmountInCups} cups of food.");
+            }
+            Console.ReadLine();
+        }
+
+        public static void ModifyDietPlan()
+        {
+            Console.Clear();
+
+            Console.WriteLine("Choose The Name Of The Plan You Wish To Modify");
+
+            DietPlan ModThisPlan = Query.FindDietPlan(UserInterface.GetUserInput());
+
+            Console.WriteLine("Choose a feild to modify: 1. Name  2. Food Type  3. Amount, in Cups");
+            var fieldToMod = Convert.ToInt32(Console.ReadLine());
+
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+
+
+            var dietPlantFromDb = db.DietPlans.Where(d => d.Name == ModThisPlan.Name).Single();
+
+            if (fieldToMod == 1)
+            {
+                string newName = UserInterface.GetStringData("name", "the new");
+
+                dietPlantFromDb.Name = newName;
+            }
+            else if (fieldToMod == 2)
+            {
+                string newFoodType = UserInterface.GetStringData("type", "the new");
+
+                dietPlantFromDb.FoodType = newFoodType;
+            }
+            else if (fieldToMod == 3)
+            {
+                int newFoodAmount = UserInterface.GetIntegerData("amount", "the new food");
+
+                dietPlantFromDb.FoodAmountInCups = newFoodAmount;
+            }
+            else
+            {
+                Console.WriteLine("Not A Valid Field To Modify");
+                Console.ReadLine();
+            }
+
+            db.SubmitChanges();
+
+        }
+
         protected override void LogInPreExistingUser()
         {
             List<string> options = new List<string>() { "Please log in", "Enter your username (CaSe SeNsItIvE)" };
