@@ -125,8 +125,9 @@ namespace HumaneSociety
 
         private void CheckAnimalStatus()
         {
-            Console.Clear();            
-            var animals = Query.SearchForAnimalByMultipleTraits().ToList();
+            Console.Clear();
+            var searchParameterDictionary = UserInterface.GetAnimalCriteria();
+            var animals = Query.SearchForAnimalByMultipleTraits(searchParameterDictionary).ToList();
             if(animals.Count > 1)
             {
                 UserInterface.DisplayUserOptions("Several animals found");
@@ -136,7 +137,14 @@ namespace HumaneSociety
                 CheckAnimalStatus(ID);
                 return;
             }
-            if(animals.Count == 0)
+            if (animals.Count == 1)
+            {
+                Console.Clear();
+                UserInterface.DisplayUserOptions("Here is the animal information:");
+                UserInterface.DisplayAnimals(animals);
+                Console.ReadLine();
+            }
+            if (animals.Count == 0)
             {
                 UserInterface.DisplayUserOptions("Animal not found please use different search criteria");
                 return;
