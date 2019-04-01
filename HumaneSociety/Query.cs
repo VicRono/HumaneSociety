@@ -88,11 +88,23 @@ namespace HumaneSociety
             AdminDelgate adminDelgate;
             switch (v)
             {
+                case "add":
+                    adminDelgate = new AdminDelgate(AddEmployee);
+                    adminDelgate(employee);
+                    break;
                 case "update":
                     adminDelgate = new AdminDelgate(UpdateEmployee);
                     adminDelgate(employee);
                     break;
+                
             }
+        }
+
+        public static void AddEmployee(Employee employee)
+        {
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            db.Employees.InsertOnSubmit(employee);
+            db.SubmitChanges();
         }
 
         public static void UpdateEmployee(Employee employee)
