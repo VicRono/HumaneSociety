@@ -421,7 +421,13 @@ namespace HumaneSociety
 
         private static void ResetRoomFields(Animal animal)
         {
-            throw new NotImplementedException();
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            var resetRooms = db.Rooms.Where(r => r.AnimalId == animal.AnimalId).SingleOrDefault();
+            if (resetRooms != null)
+            {
+                db.Rooms.DeleteOnSubmit(resetRooms);
+                db.SubmitChanges();
+            }
         }
 
         internal static int? GetCategoryId()
