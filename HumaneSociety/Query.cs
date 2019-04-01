@@ -430,9 +430,14 @@ namespace HumaneSociety
             }
         }
 
-        internal static int? GetCategoryId()
+        public static int GetCategoryId()
         {
-            throw new NotImplementedException();
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            List<string> types = new List<string>() { "What is the Animal Type:", "1. Dog", "2. Cat", "3. Lizard", "4. Bird", "5. Rodent", "Enter the corresponding number." };
+            UserInterface.DisplayUserOptions(types);
+            int animalTypeId = Int32.Parse(UserInterface.GetUserInput());
+            var category = db.Categories.Where(c => c.CategoryId == animalTypeId).Single();
+            return category.CategoryId;
         }
 
         public static int GetDietPlanId()
