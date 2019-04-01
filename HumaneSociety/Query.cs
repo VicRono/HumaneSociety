@@ -80,6 +80,8 @@ namespace HumaneSociety
             return pendingAdoptions;
         }
 
+        public delegate void EmployeeDelgate(Employee employee);
+
         internal static void RunEmployeeQueries(Employee employee, string v)
         {
             throw new NotImplementedException();
