@@ -412,9 +412,11 @@ namespace HumaneSociety
             }
         }
 
-        internal static DietPlan FindDietPlan(string v)
+        public static DietPlan FindDietPlan(string nameOfPlan)
         {
-            throw new NotImplementedException();
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            DietPlan planToMod = db.DietPlans.Where(d => d.Name == nameOfPlan).Single();
+            return planToMod;
         }
     }
 }

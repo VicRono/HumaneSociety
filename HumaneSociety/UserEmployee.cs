@@ -75,6 +75,10 @@ namespace HumaneSociety
                     CheckCurrentDietPlans();
                     RunUserMenus();
                     break;
+                case "11":
+                    ModifyDietPlan();
+                    RunUserMenus();
+                    break;
                 default:
                     UserInterface.DisplayUserOptions("Input not accepted please try again");
                     RunUserMenus();
